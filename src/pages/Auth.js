@@ -1,13 +1,18 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Card, Container, Form} from "react-bootstrap";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {LOGIN_ROUTE, NOTES_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {login, registration} from "../http/userApi";
+import {observer} from "mobx-react-lite";
+import {Context} from "../index";
 
-const Auth = () => {
+const Auth = observer(() => {
     const location = useLocation();
+    const {user} = useContext(Context);
     const isLogin = location.pathname === LOGIN_ROUTE;
     const [email, setEmail] = useState('')
+    const [showErrors, setShowErrors] = useState(false)
+    const [allError, setAllError] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
 
@@ -18,19 +23,27 @@ const Auth = () => {
             console.log(responseData)
             if (responseData.success) {
                 //todo wath ulbi internet magazin from 2:08:10 to save token
+                localStorage.setItem('token', responseData.token);
+                user.setIsAuth(true)
+                user.setUser(true)
                 navigate(NOTES_ROUTE);
             } else {
-                alert(responseData.message)
-                navigate(LOGIN_ROUTE)
+                // alert(responseData.message)
+                // navigate(LOGIN_ROUTE)
+                setAllError(responseData.message)
+                setShowErrors(true)
             }
         } else {
             const responseData = await registration(email, password);
             console.log(responseData)
-            alert(responseData.message)
+            // alert(responseData.message)
             if (responseData.success) {
                 navigate(LOGIN_ROUTE);
+                setShowErrors(false)
             } else {
-                navigate(REGISTRATION_ROUTE)
+                setAllError(responseData.message)
+                setShowErrors(true)
+                // navigate(REGISTRATION_ROUTE)
             }
         }
     }
@@ -50,6 +63,9 @@ const Auth = () => {
                                   onChange={e => setPassword(e.target.value)}
                                   type="password"
                                   placeholder={"Type your password..."}/>
+                    { showErrors
+                        ? <span className={"mt-2 text-danger"}>{allError}</span>
+                        : null}
                     <Container className={"p-0 d-flex justify-content-between mt-3"}>
                         {isLogin
                             ?
@@ -71,6 +87,6 @@ const Auth = () => {
             </Card>
         </Container>
     );
-};
+});
 
 export default Auth;

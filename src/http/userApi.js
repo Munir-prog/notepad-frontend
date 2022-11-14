@@ -1,4 +1,4 @@
-import {$host} from "./index";
+import {$authHost, $host} from "./index";
 
 export const registration = async (email, password) => {
     try {
@@ -13,6 +13,7 @@ export const registration = async (email, password) => {
 export const login = async (email, password) => {
     try {
         let response = await $host.post('api/auth/signin', {email, password});
+        console.log(response)
         return response.data;
     }catch (error) {
         return {success: false, message: '"Oops something went wrong!"'}
@@ -20,6 +21,11 @@ export const login = async (email, password) => {
 }
 
 export const check = async () => {
-    let response = await $host.post('api/auth/check');
-    return response ;
+    try {
+        let response = await $authHost.post('api/token/check');
+        return response.data;
+    }catch (error) {
+        return false
+    }
+
 }
