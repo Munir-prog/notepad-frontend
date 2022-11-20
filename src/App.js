@@ -6,6 +6,7 @@ import {Context} from "./index";
 import {useContext, useEffect, useState} from "react";
 import {check} from "./http/userApi";
 import {Spinner} from "react-bootstrap";
+import "./style/App.css"
 
 
 const App = observer(() => {
@@ -13,7 +14,6 @@ const App = observer(() => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-
         check().then((data) => {
             if (data) {
                 user.setUser(true)
@@ -28,8 +28,12 @@ const App = observer(() => {
 
     return (
         <BrowserRouter>
-            <NavBar/>
-            <AppRouter/>
+            <div className={"d-flex justify-content-center h-100"}>
+                <div className={"w-75 bg-secondary h-100"}>
+                    <NavBar/>
+                    <AppRouter/>
+                </div>
+            </div>
         </BrowserRouter>
     );
 });

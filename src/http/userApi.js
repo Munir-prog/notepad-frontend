@@ -29,3 +29,24 @@ export const check = async () => {
     }
 
 }
+
+export const getNotes = async () => {
+    try {
+        let response = await $authHost.get('api/v1/note');
+        console.log(response)
+        return response.data;
+    }catch (error) {
+        return {success: false, message: '"Oops something went wrong!"'}
+    }
+}
+export const saveNote = async () => {
+    try {
+        let response = await $authHost.post('api/v1/note');
+        console.log(response)
+        return response.data;
+    }catch (error) {
+        return {success: false, message: '"Oops something went wrong!"'}
+    }
+}
+
+

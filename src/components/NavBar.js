@@ -27,7 +27,6 @@ const NavBar = observer(() => {
                 </NavLink>
                 {user.isAuth ?
                     <Nav className={"ml-auto"} style={{color: 'white'}}>
-                        <Button variant={"outline-light"} className="m-2">Admin panel</Button>
                         <Button variant={"outline-light"} className="m-2" onClick={() => logOut()}>Log out</Button>
                     </Nav>
                     :

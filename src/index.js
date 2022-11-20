@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
       <Context.Provider value={{
           user: new UserStore(),
-          note: new NoteStore()
+          notes: new NoteStore()
       }}>
         <App />
       </Context.Provider>
