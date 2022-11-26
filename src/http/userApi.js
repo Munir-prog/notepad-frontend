@@ -39,9 +39,9 @@ export const getNotes = async () => {
         return {success: false, message: '"Oops something went wrong!"'}
     }
 }
-export const saveNote = async () => {
+export const saveNote = async (data) => {
     try {
-        let response = await $authHost.post('api/v1/note');
+        let response = await $authHost.post('api/v1/note/save', data);
         console.log(response)
         return response.data;
     }catch (error) {

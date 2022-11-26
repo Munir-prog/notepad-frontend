@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../index";
-import {getNotes} from "../http/userApi";
+import {getNotes, saveNote} from "../http/userApi";
 import {Button, Container, Form, Modal, Spinner} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import "../style/App.css"
@@ -26,7 +26,13 @@ const Notes = observer(() => {
     }
 
     const click = async () => {
-
+        let data = {
+            tittle: title,
+            text: text
+        }
+        const result = saveNote(data);
+        handleClose();
+        window.location.reload();
     }
 
     return (
